@@ -17,9 +17,6 @@ class TabBarViewController: UITabBarController {
     
     init(loginVM: LoginViewModel? = nil) {
         self.loginVM = loginVM
-        if let loginVM = loginVM {
-            loginVC = LoginViewController(loginVM: loginVM)
-        }
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -30,7 +27,7 @@ class TabBarViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        createLoginViewControllerIfNeeded()
     }
     
     override func viewDidLayoutSubviews() {
@@ -40,7 +37,10 @@ class TabBarViewController: UITabBarController {
         show(loginVC, sender: self)
     }
     
-    
-    
+    private func createLoginViewControllerIfNeeded() {
+        if let loginVM = loginVM {
+            loginVC = LoginViewController(loginVM: loginVM)
+        }        
+    }
 
 }

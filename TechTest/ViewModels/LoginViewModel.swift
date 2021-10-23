@@ -13,7 +13,8 @@ struct LoginViewModel {
     var username: String?    
     var password: String?
         
-    var validateFields: (() -> Bool)?    
+    var validateFields: (() -> Bool)?
+    var setUser: (() -> Bool)?
     var showError: (()->())?
     var dismissVC: (()->())?
     
@@ -25,7 +26,7 @@ struct LoginViewModel {
         }
     }
     
-    mutating func setuser(username: String, password: String) {
+    mutating func setUser(username: String, password: String) {
         user.username = username
         user.password = password
         persistUser()

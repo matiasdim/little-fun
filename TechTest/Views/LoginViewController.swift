@@ -47,7 +47,7 @@ class LoginViewController: UIViewController {
             {
                 return false
             }
-            self?.loginVM.setuser(username: username, password: password)            
+            self?.loginVM.setUser(username: username, password: password)            
             return true
         }
         
