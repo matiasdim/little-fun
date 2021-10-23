@@ -19,8 +19,8 @@ class TabBarViewController: UITabBarController {
         self.loginVM = loginVM
         super.init(nibName: nil, bundle: nil)
         
-        let home = embedInNavigation(viewController: createHomeScreen(), title: "Home", iconName: "home")
-        let favorites = embedInNavigation(viewController: createFavoritesScreen(), title: "favorites", iconName: "Favorites")
+        let home = embedInNavigation(viewController: createHomeScreen(), title: "Home", iconName: "house")
+        let favorites = embedInNavigation(viewController: createFavoritesScreen(), title: "Favorites", iconName: "star")
         viewControllers = [home, favorites]
     }
     
