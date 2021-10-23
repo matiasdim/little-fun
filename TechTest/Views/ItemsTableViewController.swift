@@ -43,12 +43,10 @@ class ItemsTableViewController: UITableViewController {
     }
 
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-        
-        let item = itemsVM.items[indexPath.row]
-        cell.textLabel?.text = item.title
-        cell.detailTextLabel?.text = item.subtitle
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {        
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? SubtitledTableViewCell ?? SubtitledTableViewCell()
+                
+        cell.configure(item: itemsVM.items[indexPath.row])
 
         return cell
     }
@@ -63,6 +61,11 @@ class ItemsTableViewController: UITableViewController {
 class SubtitledTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+    }
+    
+    func configure(item: ItemViewModel) {
+        textLabel?.text = item.title
+        detailTextLabel?.text = item.subtitle
     }
     
     required init?(coder aDecoder: NSCoder) {

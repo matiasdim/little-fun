@@ -13,25 +13,19 @@ import UIKit
 class TabBarViewController: UITabBarController {
     
     var loginVC: LoginViewController?
-    var loginVM: LoginViewModel?
     
-    init(loginVM: LoginViewModel? = nil) {
-        self.loginVM = loginVM
+    init(loginVC: LoginViewController? = nil) {
+        self.loginVC = loginVC
         super.init(nibName: nil, bundle: nil)
-        
-        let home = embedInNavigation(viewController: createHomeScreen(), title: "Home", iconName: "house")
-        let favorites = embedInNavigation(viewController: createFavoritesScreen(), title: "Favorites", iconName: "star")
-        viewControllers = [home, favorites]
+        viewControllers = [createHomeScreen(), createFavoritesScreen()]
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        createLoginViewControllerIfNeeded()
     }
     
     override func viewDidLayoutSubviews() {
@@ -41,24 +35,21 @@ class TabBarViewController: UITabBarController {
         show(loginVC, sender: self)
     }
     
-    private func createLoginViewControllerIfNeeded() {
-        if let loginVM = loginVM {
-            loginVC = LoginViewController(loginVM: loginVM)
-        }
+    private func createHomeScreen() -> UINavigationController {
+        let title = "Home"
+        return embedInNavigation(viewController: crateItemsTableViewController(withTitle: title), title: title, iconName: "house")
     }
     
-    private func createHomeScreen() -> UIViewController {
-        let homePage = ItemsTableViewController(itemsVM: ItemsViewModel())
-        homePage.navigationItem.largeTitleDisplayMode = .always
-        homePage.title = "Home"
-        return homePage
+    private func createFavoritesScreen() -> UINavigationController {
+        let title = "Favorites"
+        return embedInNavigation(viewController: crateItemsTableViewController(withTitle: title), title: title, iconName: "star")
     }
     
-    private func createFavoritesScreen() -> UIViewController {
-        let favoritesPage = ItemsTableViewController(itemsVM: ItemsViewModel())
-        favoritesPage.navigationItem.largeTitleDisplayMode = .always
-        favoritesPage.title = "Favorites"
-        return favoritesPage
+    private func crateItemsTableViewController(withTitle title: String) -> UITableViewController {
+        let vc = ItemsTableViewController(itemsVM: ItemsViewModel())
+        vc.navigationItem.largeTitleDisplayMode = .always
+        vc.title = title
+        return vc
     }
     
     private func embedInNavigation(viewController: UIViewController, title: String, iconName: String) -> UINavigationController {

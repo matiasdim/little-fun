@@ -20,12 +20,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         let vc: TabBarViewController
+//        UserDefaults.standard.removeObject(forKey: "user")
         
+        /// ATENTION: THIS COULD BE IMPROVED!
         if let _ = UserDefaults.standard.object(forKey: "user") {
             vc = TabBarViewController()
         } else {
             let loginVM = LoginViewModel(user: User())
-            vc = TabBarViewController(loginVM: loginVM)
+            let loginVC = LoginViewController(loginVM: loginVM)
+            vc = TabBarViewController(loginVC: loginVC)
         }
         
         vc.view.frame = CGRect(x: 0, y: 0, width: window.bounds.width, height: window.bounds.height)
