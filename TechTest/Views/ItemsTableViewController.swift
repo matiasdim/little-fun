@@ -27,9 +27,13 @@ class ItemsTableViewController: UITableViewController {
         tableView.register(SubtitledTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         // TODO: call Movies API
         // TODO: Put this logic away
-        itemsVM.items = [ItemViewModel(movie: Movie(title: "La cosa", duration: "110", description: "descripcion"), selection: { [weak self] in
+        itemsVM.items = [ItemViewModel(movie: Movie(title: "La cosa", duration: "110", description: "descripcion", isFavorite: true), selection: { [weak self] in
+            self?.navigationController?.show(UIViewController(), sender: nil)
+        }), ItemViewModel(movie: Movie(title: "La cosa 2", duration: "90", description: "descripcion 2", isFavorite: false), selection: { [weak self] in
             self?.navigationController?.show(UIViewController(), sender: nil)
         })]
+        
+        MovieAPI().load()
     }
 
     // MARK: - Table view data source
@@ -66,6 +70,7 @@ class SubtitledTableViewCell: UITableViewCell {
     func configure(item: ItemViewModel) {
         textLabel?.text = item.title
         detailTextLabel?.text = item.subtitle
+        imageView?.image = UIImage(systemName: item.isFavorite ? "star.fill" : "star")
     }
     
     required init?(coder aDecoder: NSCoder) {

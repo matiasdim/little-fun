@@ -22,6 +22,7 @@
 		13E9A5A9272471DB0016C248 /* ItemsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E9A5A8272471DB0016C248 /* ItemsTableViewController.swift */; };
 		13E9A5AB272471E70016C248 /* ItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E9A5AA272471E70016C248 /* ItemViewModel.swift */; };
 		13E9A5AD272472060016C248 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E9A5AC272472060016C248 /* Movie.swift */; };
+		13E9A5B12724AA7D0016C248 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E9A5B02724AA7D0016C248 /* Networking.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		13E9A5A8272471DB0016C248 /* ItemsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsTableViewController.swift; sourceTree = "<group>"; };
 		13E9A5AA272471E70016C248 /* ItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewModel.swift; sourceTree = "<group>"; };
 		13E9A5AC272472060016C248 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		13E9A5B02724AA7D0016C248 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 		13E9A5622723A5250016C248 /* TechTest */ = {
 			isa = PBXGroup;
 			children = (
+				13E9A5AF2724AA4F0016C248 /* Networking */,
 				13E9A5A5272465410016C248 /* Utils */,
 				13E9A596272450800016C248 /* Resources */,
 				13E9A594272450680016C248 /* Models */,
@@ -195,6 +198,14 @@
 				13E9A5A227245B060016C248 /* LoginViewController.xib */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		13E9A5AF2724AA4F0016C248 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				13E9A5B02724AA7D0016C248 /* Networking.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -328,6 +339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13E9A5A327245B060016C248 /* LoginViewController.swift in Sources */,
+				13E9A5B12724AA7D0016C248 /* Networking.swift in Sources */,
 				13E9A59A272451210016C248 /* TabBarViewController.swift in Sources */,
 				13E9A5A9272471DB0016C248 /* ItemsTableViewController.swift in Sources */,
 				13E9A5A02724538E0016C248 /* LoginViewModel.swift in Sources */,

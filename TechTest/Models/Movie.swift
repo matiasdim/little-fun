@@ -11,4 +11,5 @@ struct Movie {
     var title: String
     var duration: String
     var description: String
+    var isFavorite: Bool
 }

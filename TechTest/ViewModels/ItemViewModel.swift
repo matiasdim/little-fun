@@ -10,6 +10,7 @@ import Foundation
 struct ItemViewModel {
     let title: String
     let subtitle: String
+    let isFavorite: Bool
     
     var select: () -> ()
 }
@@ -19,6 +20,7 @@ extension ItemViewModel {
     init(movie: Movie, selection: @escaping () -> ()) {
         title = movie.title
         subtitle = movie.duration
+        isFavorite = movie.isFavorite
         select = selection
     }
     
