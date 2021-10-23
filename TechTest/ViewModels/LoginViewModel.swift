@@ -10,7 +10,7 @@ import Foundation
 struct LoginViewModel {
     var user: User
     
-    var username: String?
+    var email: String?
     var password: String?
         
     var validateFields: (() -> Bool)?
@@ -26,14 +26,14 @@ struct LoginViewModel {
         }
     }
     
-    mutating func setUser(username: String, password: String) {
-        user.username = username
+    mutating func setUser(email: String, password: String) {
+        user.email = email
         user.password = password
         persistUser()
     }
     
     private func persistUser() {
-        UserDefaults.standard.setValue(["username": user.username, "password": user.password], forKey: "user")
+        UserDefaults.standard.setValue(["email": user.email, "password": user.password], forKey: "user")
     }
         
 }
