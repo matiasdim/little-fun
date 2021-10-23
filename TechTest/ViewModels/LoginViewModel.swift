@@ -26,6 +26,11 @@ struct LoginViewModel {
         }
     }
     
+    func validateEmail(email: String) -> Bool {
+        let emailRegExp = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        return email.range(of: emailRegExp, options: .regularExpression) != nil
+    }
+    
     mutating func setUser(email: String, password: String) {
         user.email = email
         user.password = password

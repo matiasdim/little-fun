@@ -40,20 +40,24 @@ class LoginViewController: UIViewController {
     
     private func viewModelConfiguration() {
         loginVM.validateFields = { [weak self] in
-            guard let username = self?.usernameLabel.text,
+            guard let username = self?.usernameTextField.text,
                   !username.isEmpty,
                   let password = self?.passwordTextField.text,
                   !password.isEmpty else
             {
                 return false
             }
-            self?.loginVM.setUser(email: username, password: password)            
+            if !(self?.loginVM.validateEmail(email: username) == true) {
+                return false
+            }
+            
+            self?.loginVM.setUser(email: username, password: password)
             return true
         }
         
         loginVM.showError = { [weak self] in
             let alertAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-            self?.showAlert(title: "Login Error", message: "Username and password must not be empty", style: .alert, action: alertAction)
+            self?.showAlert(title: "Login Error", message: "Email and password must not be empty and email should be valid", style: .alert, action: alertAction)
         }
         
         loginVM.dismissVC = { [weak self] in
