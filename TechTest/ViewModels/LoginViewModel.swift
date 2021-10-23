@@ -10,7 +10,7 @@ import Foundation
 struct LoginViewModel {
     var user: User
     
-    var username: String?    
+    var username: String?
     var password: String?
         
     var validateFields: (() -> Bool)?
