@@ -12,8 +12,9 @@ class ActivityIndicator: UIViewController {
     
     override func loadView() {
         view = UIView()
-        view.backgroundColor = .white.withAlphaComponent(0.7)
+        view.backgroundColor = .black.withAlphaComponent(0.7)
         
+        indicator.color = .white
         indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.startAnimating()
         view.addSubview(indicator)

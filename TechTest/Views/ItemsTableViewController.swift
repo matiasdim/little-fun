@@ -33,7 +33,6 @@ class ItemsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         tableView.register(SubtitledTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,7 +41,6 @@ class ItemsTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         return itemsVM.numberOfSections
     }
@@ -50,13 +48,10 @@ class ItemsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemsVM.numberOfRows
     }
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {        
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? SubtitledTableViewCell ?? SubtitledTableViewCell()
-                
         cell.configure(item: itemsVM.items[indexPath.row])
-
         return cell
     }
     
@@ -71,7 +66,8 @@ class ItemsTableViewController: UITableViewController {
             (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height
             && !isFetchingData
         {
-            print("")
+            currentPage += 1
+            fetchItems()
         }
     }
     
@@ -79,12 +75,14 @@ class ItemsTableViewController: UITableViewController {
     private func fetchItems() {
         if Reachability().isConnected() {
             showActivityIndicator()
+            isFetchingData = true
             service?.pull(withPage: currentPage, completion: { [weak self] result in
+                self?.isFetchingData = false
                 DispatchQueue.main.async {
                     self?.removeActivityIndicator()
                     switch result {
-                        case .success(let itemsVM):
-                            self?.itemsVM = itemsVM
+                        case .success(let items):
+                            self?.itemsVM.items.append(contentsOf: items)
                             self?.tableView.reloadData()
                         case .failure(let error):
                             self?.showAlert(title: "Something went Wrong", message: error.localizedDescription, style: .alert, action: UIAlertAction(title: "OK", style: .cancel, handler: nil))

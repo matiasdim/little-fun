@@ -9,7 +9,7 @@ import Foundation
 import SystemConfiguration
 
 protocol ItemService {
-    func pull(withPage page: Int, completion: @escaping (Result<ItemsViewModel, Error>) -> Void)
+    func pull(withPage page: Int, completion: @escaping (Result<[ItemViewModel], Error>) -> Void)
 }
  
 class Reachability {
@@ -38,7 +38,7 @@ struct MovieAPI {
     let baseURL = "https://api.themoviedb.org/3/movie/"
     let APIKey = "55957fcf3ba81b137f8fc01ac5a31fb5"
     let session = URLSession(configuration: .default)
-    ///https://api.themoviedb.org/3/movie/top_rated?page=1&language=en-US&api_key=55957fcf3ba81b137f8fc01ac5a31fb5
+
     func loadTopRatedMovies(withPage page: Int, completion: @escaping (Result<Data, Error>) -> Void) {
         if let url = URL(string: "\(baseURL)top_rated?page=\(page)&api_key=\(APIKey)") {
             let task = session.dataTask(with: url, completionHandler: { data, response, error in
@@ -62,18 +62,18 @@ struct MovieAPIItemServiceAdapter: ItemService {
     var api: MovieAPI
     /// let select: () -> () ????
     
-    func pull(withPage page: Int, completion: @escaping (Result<ItemsViewModel, Error>) -> Void) {
+    func pull(withPage page: Int, completion: @escaping (Result<[ItemViewModel], Error>) -> Void) {
         api.loadTopRatedMovies(withPage: page) { result in
             switch result {
                 case .success(let data):
                     do {
                         let responseArray = try JSONDecoder().decode(Response.self, from: data)
-                        var itemsViewModel = ItemsViewModel()
+                        var items = [ItemViewModel] ()
                         /// Mapping from Movies array to ItemViewModel could be improved
                         responseArray.results.forEach { movie in
-                            itemsViewModel.items.append(ItemViewModel(movie: movie, selection: {})) /// Work on Selection function!
+                            items.append(ItemViewModel(movie: movie, selection: {})) /// Work on Selection function!
                         }
-                        completion(.success(itemsViewModel))
+                        completion(.success(items))
                     } catch {
                         completion(.failure(error))
                     }
