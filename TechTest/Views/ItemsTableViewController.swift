@@ -12,15 +12,25 @@ class ItemsTableViewController: UITableViewController {
     /// More general types of items and service to decouple the view controller of these and have it more general.
     /// This is a good architecture to have decouples View controllers. This only deals with UI things. (Single responsibility principle)
     var itemsVM: ItemsViewModel
+    var filteredItemsVM: ItemsViewModel
     var service: ItemService?
     var currentPage: Int = 1
     var isFetchingData: Bool = false
     var activityIndicator: ActivityIndicator?
+    let searchController = UISearchController(searchResultsController: nil)
+    
+    var isSearchBarEmpty: Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    var isFiltering: Bool {
+        return searchController.isActive && !isSearchBarEmpty
+    }
     
     private var reuseIdentifier = "reuseIdentifier"
     
-    init(itemsVM: ItemsViewModel, service: ItemService?) {
+    init(itemsVM: ItemsViewModel, filteredItemsVM: ItemsViewModel, service: ItemService?) {
         self.itemsVM = itemsVM
+        self.filteredItemsVM = filteredItemsVM
         self.service = service
         super.init(nibName: nil, bundle: nil)
     }
@@ -33,6 +43,11 @@ class ItemsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         tableView.register(SubtitledTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Items by title"
+        definesPresentationContext = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -46,12 +61,16 @@ class ItemsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering {
+            return filteredItemsVM.numberOfRows
+        }
         return itemsVM.numberOfRows
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {        
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? SubtitledTableViewCell ?? SubtitledTableViewCell()
-        cell.configure(item: itemsVM.items[indexPath.row])
+        let item = isFiltering ? filteredItemsVM.items[indexPath.row] : itemsVM.items[indexPath.row]
+        cell.configure(item: item)
         return cell
     }
     
@@ -83,6 +102,7 @@ class ItemsTableViewController: UITableViewController {
                     switch result {
                         case .success(let items):
                             self?.itemsVM.items.append(contentsOf: items)
+                            self?.navigationItem.searchController = self?.searchController /// Located here in order to initially appear hidden
                             self?.tableView.reloadData()
                         case .failure(let error):
                             self?.showAlert(title: "Something went Wrong", message: error.localizedDescription, style: .alert, action: UIAlertAction(title: "OK", style: .cancel, handler: nil))
@@ -108,6 +128,23 @@ class ItemsTableViewController: UITableViewController {
         activityIndicator?.willMove(toParent: nil)
         activityIndicator?.view.removeFromSuperview()
         activityIndicator?.removeFromParent()
+    }
+    
+    private func filterContentForSearchText(_ searchText: String) {
+        filteredItemsVM.items = itemsVM.items.filter { (item: ItemViewModel) -> Bool in
+            return item.title.lowercased().contains(searchText.lowercased())
+        }
+        
+        tableView.reloadData()
+    }
+}
+
+extension ItemsTableViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchBar = searchController.searchBar
+        if let text = searchBar.text {
+            filterContentForSearchText(text)
+        }
     }
 }
 
