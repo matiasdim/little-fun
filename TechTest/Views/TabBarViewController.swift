@@ -46,7 +46,7 @@ class TabBarViewController: UITabBarController {
     }
     
     private func crateItemsTableViewController(withTitle title: String) -> UITableViewController {
-        let vc = ItemsTableViewController(itemsVM: ItemsViewModel())
+        let vc = ItemsTableViewController(itemsVM: ItemsViewModel(), service: MovieAPIItemServiceAdapter(api: MovieAPI()))
         vc.navigationItem.largeTitleDisplayMode = .always
         vc.title = title
         return vc

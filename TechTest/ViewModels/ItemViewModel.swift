@@ -8,9 +8,10 @@
 import Foundation
 
 struct ItemViewModel {
-    let title: String
-    let subtitle: String
-    let isFavorite: Bool
+    var title: String
+    var rating: Double
+    var overview: String
+    var isFavorite: Bool
     
     var select: () -> ()
 }
@@ -19,7 +20,8 @@ struct ItemViewModel {
 extension ItemViewModel {
     init(movie: Movie, selection: @escaping () -> ()) {
         title = movie.title
-        subtitle = movie.duration
+        rating = movie.rating
+        overview = movie.overview
         isFavorite = movie.isFavorite
         select = selection
     }

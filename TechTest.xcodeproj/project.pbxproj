@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		131DCA7427261BCF00D1C0FD /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131DCA7327261BCF00D1C0FD /* ActivityIndicator.swift */; };
 		13E9A5642723A5250016C248 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E9A5632723A5250016C248 /* AppDelegate.swift */; };
 		13E9A5662723A5250016C248 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E9A5652723A5250016C248 /* SceneDelegate.swift */; };
 		13E9A56D2723A5260016C248 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13E9A56C2723A5260016C248 /* Assets.xcassets */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		131DCA7327261BCF00D1C0FD /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		13E9A5602723A5250016C248 /* TechTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TechTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13E9A5632723A5250016C248 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13E9A5652723A5250016C248 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				13E9A5A6272465530016C248 /* UIViewController+Extension.swift */,
+				131DCA7327261BCF00D1C0FD /* ActivityIndicator.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				13E9A5B12724AA7D0016C248 /* Networking.swift in Sources */,
 				13E9A59A272451210016C248 /* TabBarViewController.swift in Sources */,
 				13E9A5A9272471DB0016C248 /* ItemsTableViewController.swift in Sources */,
+				131DCA7427261BCF00D1C0FD /* ActivityIndicator.swift in Sources */,
 				13E9A5A02724538E0016C248 /* LoginViewModel.swift in Sources */,
 				13E9A5AD272472060016C248 /* Movie.swift in Sources */,
 				13E9A5642723A5250016C248 /* AppDelegate.swift in Sources */,
