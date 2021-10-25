@@ -75,8 +75,9 @@ class ItemsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let navController = navigationController else { return }
         let item = itemsVM.items[indexPath.row]
-        item.select()
+        item.select?(navController, item)
     }
     
     // MARK: - Scrollview delegate methods
