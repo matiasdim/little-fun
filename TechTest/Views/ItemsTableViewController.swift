@@ -41,7 +41,7 @@ class ItemsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.register(SubtitledTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.register(CustomTableCell.self, forCellReuseIdentifier: reuseIdentifier)
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -67,16 +67,20 @@ class ItemsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {        
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? SubtitledTableViewCell ?? SubtitledTableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! CustomTableCell
         let item = isFiltering ? filteredItemsVM.items[indexPath.row] : itemsVM.items[indexPath.row]
-        cell.configure(item: item)
+        cell.itemVM = item
+        
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let navController = navigationController else { return }
         let item = itemsVM.items[indexPath.row]
         item.select(item)
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
     }
     
     // MARK: - Scrollview delegate methods
@@ -155,18 +159,60 @@ extension ItemsTableViewController: UISearchResultsUpdating {
     }
 }
 
-class SubtitledTableViewCell: UITableViewCell {
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+class CustomTableCell: UITableViewCell {
+    var itemVM: ItemViewModel? {
+        didSet {
+           configure()
+        }
     }
     
-    func configure(item: ItemViewModel) {
-        textLabel?.text = item.title
-        detailTextLabel?.text = "\(item.rating)"
-        imageView?.image = UIImage(systemName: item.isFavorite ? "star.fill" : "star")
+    private func configure() {
+        guard let itemVM = itemVM else { return }
+        
+        accessoryType = .disclosureIndicator
+
+        let title = UILabel()
+        title.translatesAutoresizingMaskIntoConstraints = false
+        title.numberOfLines = 0
+        title.text = itemVM.title
+        title.font = .systemFont(ofSize: 12, weight: .bold)
+        
+        let subtitle = UILabel()
+        subtitle.translatesAutoresizingMaskIntoConstraints = false
+        subtitle.numberOfLines = 0
+        subtitle.text = "\(itemVM.rating)"
+        subtitle.font = .systemFont(ofSize: 12, weight: .light)
+        
+        let favoritesButton = UIButton(type: .custom)
+        favoritesButton.translatesAutoresizingMaskIntoConstraints = false
+        let image = UIImage(systemName: itemVM.isFavorite ? "star.fill" : "star")?.withTintColor(.yellow,
+                                                                                                 renderingMode: .alwaysTemplate)
+        favoritesButton.setImage(image, for: .normal)
+        favoritesButton.addTarget(self, action: #selector(toggleFavorites), for: .touchUpInside)
+        
+        addSubview(title)
+        addSubview(subtitle)
+        addSubview(favoritesButton)
+        
+        favoritesButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        favoritesButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        favoritesButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        title.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
+        title.trailingAnchor.constraint(equalTo: favoritesButton.leadingAnchor, constant: -10).isActive = true
+        
+        
+        subtitle.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 4).isActive = true
+        subtitle.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
+        subtitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
+        title.trailingAnchor.constraint(equalTo: favoritesButton.leadingAnchor, constant: -10).isActive = true
+                
+        
+        favoritesButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30).isActive = true
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    @objc private func toggleFavorites() {
+        print("")
     }
 }

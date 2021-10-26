@@ -49,6 +49,7 @@ class TabBarViewController: UITabBarController {
         let vc = ItemsTableViewController(itemsVM: ItemsViewModel(), filteredItemsVM: ItemsViewModel())
         vc.navigationItem.largeTitleDisplayMode = .always
         vc.title = title
+        
         vc.service = MovieAPIItemServiceAdapter(
             api: MovieAPI(),
             select: { [weak vc] item in
