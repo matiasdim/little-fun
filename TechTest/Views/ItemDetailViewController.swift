@@ -11,6 +11,10 @@ class ItemDetailViewController: UIViewController {
     
     var itemVM: ItemViewModel
     
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var overviewLabel: UILabel!
+    
     init(itemVM: ItemViewModel) {
         self.itemVM =  itemVM
         super.init(nibName: nil, bundle: nil)
@@ -22,7 +26,9 @@ class ItemDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
+        titleLabel.text = itemVM.title
+        ratingLabel.text = "\(itemVM.rating)"
+        overviewLabel.text = itemVM.overview
     }
 }

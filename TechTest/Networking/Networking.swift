@@ -7,10 +7,6 @@
 
 import Foundation
 import SystemConfiguration
-
-protocol ItemService {
-    func pull(withPage page: Int, completion: @escaping (Result<[ItemViewModel], Error>) -> Void)
-}
  
 class Reachability {
     func isConnected() -> Bool {

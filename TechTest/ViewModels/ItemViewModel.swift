@@ -14,12 +14,12 @@ struct ItemViewModel {
     var overview: String
     var isFavorite: Bool
     
-    var select: ((_ navigationController: UINavigationController, _ itemVM: ItemViewModel) -> ())?
+    var select: (ItemViewModel) -> Void
 }
 
 /// Abstraction to decouple ItemViewModel from Movie
 extension ItemViewModel {
-    init(movie: Movie, selection: ((_ navigationController: UINavigationController, _ itemVM: ItemViewModel) -> ())?) {
+    init(movie: Movie, selection: @escaping (ItemViewModel) -> Void) {
         title = movie.title
         rating = movie.rating
         overview = movie.overview

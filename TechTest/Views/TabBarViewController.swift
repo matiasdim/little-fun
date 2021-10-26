@@ -28,7 +28,7 @@ class TabBarViewController: UITabBarController {
         super.viewDidLoad()
     }
     
-    override func viewDidLayoutSubviews() { 
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         guard let loginVC = loginVC else { return }
 
@@ -46,15 +46,15 @@ class TabBarViewController: UITabBarController {
     }
     
     private func crateItemsTableViewController(withTitle title: String) -> UITableViewController {
-        let movieAPI = MovieAPI()
-        let vc = ItemsTableViewController(itemsVM: ItemsViewModel(),
-                                          filteredItemsVM: ItemsViewModel(),
-                                          service: MovieAPIItemServiceAdapter(api: movieAPI,
-                                                                              select: { [weak self] navigationController, itemVM in
-                                                                                navigationController.show(ItemDetailViewController(itemVM: itemVM), sender: nil)
-                                          }))
+        let vc = ItemsTableViewController(itemsVM: ItemsViewModel(), filteredItemsVM: ItemsViewModel())
         vc.navigationItem.largeTitleDisplayMode = .always
         vc.title = title
+        vc.service = MovieAPIItemServiceAdapter(
+            api: MovieAPI(),
+            select: { [weak vc] item in
+                vc?.select(item: item)
+                
+            })
         return vc
     }
     

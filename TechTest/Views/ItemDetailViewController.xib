@@ -10,6 +10,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ItemDetailViewController" customModule="TechTest" customModuleProvider="target">
             <connections>
+                <outlet property="overviewLabel" destination="RdJ-mY-KeJ" id="klO-Y6-gJF"/>
+                <outlet property="ratingLabel" destination="W4m-RM-Ipn" id="r1r-fv-qNk"/>
+                <outlet property="titleLabel" destination="gey-Kd-8vw" id="blB-5L-mrv"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -22,24 +25,24 @@
                     <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rMM-Py-3V6">
-                            <rect key="frame" x="0.0" y="0.0" width="402" height="212.5"/>
+                            <rect key="frame" x="0.0" y="0.0" width="402" height="145.5"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gey-Kd-8vw">
-                                    <rect key="frame" x="25" y="25" width="352" height="20.5"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <rect key="frame" x="25" y="10" width="352" height="29"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W4m-RM-Ipn">
-                                    <rect key="frame" x="25" y="55.5" width="352" height="21"/>
+                                    <rect key="frame" x="25" y="49" width="352" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RdJ-mY-KeJ">
-                                    <rect key="frame" x="25" y="166.5" width="352" height="21"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RdJ-mY-KeJ">
+                                    <rect key="frame" x="25" y="100" width="352" height="20.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <nil key="textColor"/>
+                                    <color key="textColor" red="0.31790398320000002" green="0.31790398320000002" blue="0.31790398320000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
@@ -47,12 +50,12 @@
                             <constraints>
                                 <constraint firstItem="gey-Kd-8vw" firstAttribute="leading" secondItem="rMM-Py-3V6" secondAttribute="leading" constant="25" id="2Ae-mn-tw3"/>
                                 <constraint firstItem="W4m-RM-Ipn" firstAttribute="leading" secondItem="rMM-Py-3V6" secondAttribute="leading" constant="25" id="2Qg-53-Wls"/>
-                                <constraint firstItem="RdJ-mY-KeJ" firstAttribute="top" secondItem="W4m-RM-Ipn" secondAttribute="bottom" constant="90" id="2aV-eW-u9E"/>
+                                <constraint firstItem="RdJ-mY-KeJ" firstAttribute="top" secondItem="W4m-RM-Ipn" secondAttribute="bottom" constant="30" id="2aV-eW-u9E"/>
                                 <constraint firstAttribute="trailing" secondItem="gey-Kd-8vw" secondAttribute="trailing" constant="25" id="9iK-G2-2bK"/>
                                 <constraint firstItem="RdJ-mY-KeJ" firstAttribute="leading" secondItem="rMM-Py-3V6" secondAttribute="leading" constant="25" id="UNP-Yl-oxB"/>
                                 <constraint firstAttribute="trailing" secondItem="RdJ-mY-KeJ" secondAttribute="trailing" constant="25" id="cLC-c7-5vt"/>
                                 <constraint firstAttribute="trailing" secondItem="W4m-RM-Ipn" secondAttribute="trailing" constant="25" id="lmp-VP-H0o"/>
-                                <constraint firstItem="gey-Kd-8vw" firstAttribute="top" secondItem="rMM-Py-3V6" secondAttribute="top" constant="25" id="teA-ad-M0E"/>
+                                <constraint firstItem="gey-Kd-8vw" firstAttribute="top" secondItem="rMM-Py-3V6" secondAttribute="top" constant="10" id="teA-ad-M0E"/>
                                 <constraint firstItem="W4m-RM-Ipn" firstAttribute="top" secondItem="gey-Kd-8vw" secondAttribute="bottom" constant="10" id="yCP-go-yVY"/>
                                 <constraint firstAttribute="bottom" secondItem="RdJ-mY-KeJ" secondAttribute="bottom" constant="25" id="zRm-fY-PZW"/>
                             </constraints>

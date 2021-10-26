@@ -16,7 +16,7 @@ class ItemsTableViewController: UITableViewController {
     var service: ItemService?
     var currentPage: Int = 1
     var isFetchingData: Bool = false
-    var activityIndicator: ActivityIndicator?
+    var activityIndicator: ActivityIndicator?    
     let searchController = UISearchController(searchResultsController: nil)
     
     var isSearchBarEmpty: Bool {
@@ -28,10 +28,9 @@ class ItemsTableViewController: UITableViewController {
     
     private var reuseIdentifier = "reuseIdentifier"
     
-    init(itemsVM: ItemsViewModel, filteredItemsVM: ItemsViewModel, service: ItemService?) {
+    init(itemsVM: ItemsViewModel, filteredItemsVM: ItemsViewModel) {
         self.itemsVM = itemsVM
-        self.filteredItemsVM = filteredItemsVM
-        self.service = service
+        self.filteredItemsVM = filteredItemsVM        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -77,7 +76,7 @@ class ItemsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let navController = navigationController else { return }
         let item = itemsVM.items[indexPath.row]
-        item.select?(navController, item)
+        item.select(item)
     }
     
     // MARK: - Scrollview delegate methods
@@ -89,6 +88,13 @@ class ItemsTableViewController: UITableViewController {
             currentPage += 1
             fetchItems()
         }
+    }
+    
+    func select(item: ItemViewModel) {
+        let detailVC = ItemDetailViewController(itemVM: item)
+        detailVC.navigationItem.largeTitleDisplayMode = .never
+        detailVC.title = item.title
+        show(detailVC, sender: nil)
     }
     
     // MARK: - Private

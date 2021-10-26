@@ -13,6 +13,7 @@
 		13834B162727596500973145 /* MovieAPIItemServiceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13834B152727596500973145 /* MovieAPIItemServiceAdapter.swift */; };
 		13834B182727598D00973145 /* MovieAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13834B172727598D00973145 /* MovieAPI.swift */; };
 		13834B1B27275A5700973145 /* ItemsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13834B1A27275A5700973145 /* ItemsViewModel.swift */; };
+		13834B1D272776CC00973145 /* ItemServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13834B1C272776CC00973145 /* ItemServiceProtocol.swift */; };
 		13E9A5642723A5250016C248 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E9A5632723A5250016C248 /* AppDelegate.swift */; };
 		13E9A5662723A5250016C248 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E9A5652723A5250016C248 /* SceneDelegate.swift */; };
 		13E9A56D2723A5260016C248 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13E9A56C2723A5260016C248 /* Assets.xcassets */; };
@@ -55,6 +56,7 @@
 		13834B152727596500973145 /* MovieAPIItemServiceAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieAPIItemServiceAdapter.swift; sourceTree = "<group>"; };
 		13834B172727598D00973145 /* MovieAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieAPI.swift; sourceTree = "<group>"; };
 		13834B1A27275A5700973145 /* ItemsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsViewModel.swift; sourceTree = "<group>"; };
+		13834B1C272776CC00973145 /* ItemServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemServiceProtocol.swift; sourceTree = "<group>"; };
 		13E9A5602723A5250016C248 /* TechTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TechTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13E9A5632723A5250016C248 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13E9A5652723A5250016C248 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 			children = (
 				13834B192727599C00973145 /* MovieAPI */,
 				13E9A5B02724AA7D0016C248 /* Networking.swift */,
+				13834B1C272776CC00973145 /* ItemServiceProtocol.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -371,6 +374,7 @@
 				13E9A59A272451210016C248 /* TabBarViewController.swift in Sources */,
 				13E9A5A9272471DB0016C248 /* ItemsTableViewController.swift in Sources */,
 				131DCA7427261BCF00D1C0FD /* ActivityIndicator.swift in Sources */,
+				13834B1D272776CC00973145 /* ItemServiceProtocol.swift in Sources */,
 				13E9A5A02724538E0016C248 /* LoginViewModel.swift in Sources */,
 				13E9A5AD272472060016C248 /* Movie.swift in Sources */,
 				13E9A5642723A5250016C248 /* AppDelegate.swift in Sources */,
