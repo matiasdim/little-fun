@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol CustomTableCellActionsHandler {
+    func toggleFavorite(item: ItemViewModel)
+}
+
 class CustomTableCell: UITableViewCell {
+    
+    var toggleFavorite: ((_ item: ItemViewModel) -> ())?
     
     var itemVM: ItemViewModel? {
         didSet {
@@ -18,6 +24,7 @@ class CustomTableCell: UITableViewCell {
     private let title: UILabel = {
         let title = UILabel()
         title.translatesAutoresizingMaskIntoConstraints = false
+        title.numberOfLines = 0
         title.font = .systemFont(ofSize: 12, weight: .bold)
         return title
     }()
@@ -30,16 +37,17 @@ class CustomTableCell: UITableViewCell {
         return subtitle
     }()
     
-    private let favoritesButton: UIButton = {
-        let favoritesButton = UIButton(type: .custom)
-        favoritesButton.translatesAutoresizingMaskIntoConstraints = false
-        favoritesButton.addTarget(self, action: #selector(toggleFavorites), for: .touchUpInside)
-        return favoritesButton
+    private let favoriteButton: UIButton = {
+        let favoriteButton = UIButton(type: .custom)
+        favoriteButton.translatesAutoresizingMaskIntoConstraints = false
+        return favoriteButton
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         accessoryType = .disclosureIndicator
+        contentView.isUserInteractionEnabled = true
+        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -48,38 +56,40 @@ class CustomTableCell: UITableViewCell {
     
     private func configureCell() {
         guard let itemVM = itemVM else { return }
-        
-        
 
         title.text = itemVM.title
-        subtitle.text = "\(itemVM.rating)"
+        subtitle.text = "Rating: \(itemVM.rating)"
                 
         let image = UIImage(systemName: itemVM.isFavorite ? "star.fill" : "star")?.withTintColor(.yellow, renderingMode: .alwaysTemplate)
-        favoritesButton.setImage(image, for: .normal)
+        favoriteButton.setImage(image, for: .normal)
+        favoriteButton.addTarget(self, action: #selector(favoriteButtonPressed), for: .touchUpInside)
         
-        addSubview(title)
-        addSubview(subtitle)
-        addSubview(favoritesButton)
+        contentView.addSubview(title)
+        contentView.addSubview(subtitle)
+        contentView.addSubview(favoriteButton)
         
-        favoritesButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        favoritesButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        favoritesButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        favoritesButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30).isActive = true
+        favoriteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        favoriteButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        favoriteButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        favoriteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
 
         
-        title.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
-        title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
-        title.trailingAnchor.constraint(equalTo: favoritesButton.leadingAnchor, constant: -10).isActive = true
+        title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
+        title.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        title.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: -10).isActive = true
         
         
         subtitle.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 4).isActive = true
-        subtitle.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
-        subtitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
-        subtitle.trailingAnchor.constraint(equalTo: favoritesButton.leadingAnchor, constant: -10).isActive = true
+        subtitle.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
+        subtitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
+        subtitle.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: -10).isActive = true
     }
     
-    @objc private func toggleFavorites() {
-        print("")
+    @objc private func favoriteButtonPressed() {
+        guard let itemVM = itemVM else { return }
+        let image = UIImage(systemName: itemVM.isFavorite ? "star.fill" : "star")?.withTintColor(.yellow, renderingMode: .alwaysTemplate)
+        favoriteButton.setImage(image, for: .normal)
+        toggleFavorite?(itemVM)
     }
 
 }

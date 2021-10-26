@@ -70,7 +70,9 @@ class ItemsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! CustomTableCell
         let item = isFiltering ? filteredItemsVM.items[indexPath.row] : itemsVM.items[indexPath.row]
         cell.itemVM = item
-        
+        cell.toggleFavorite = { [weak self] item in
+            self?.toggleFavorite(item: item)
+        }
         return cell
     }
     
@@ -80,12 +82,13 @@ class ItemsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 80
     }
     
     // MARK: - Scrollview delegate methods
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if scrollView == tableView &&
+        if !isFiltering &&
+            scrollView == tableView &&
             (scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height
             && !isFetchingData
         {
@@ -146,6 +149,16 @@ class ItemsTableViewController: UITableViewController {
             return item.title.lowercased().contains(searchText.lowercased())
         }
         
+        tableView.reloadData()
+    }
+    
+    private func toggleFavorite(item: ItemViewModel) {
+        if let index = itemsVM.items.firstIndex(where: { $0.id == item.id }) {
+            itemsVM.items[index].isFavorite = !item.isFavorite
+            if isFiltering, let index = filteredItemsVM.items.firstIndex(where: { $0.id == item.id }) {
+                filteredItemsVM.items[index].isFavorite = !item.isFavorite
+            }
+        }        
         tableView.reloadData()
     }
 }
