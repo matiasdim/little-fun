@@ -13,7 +13,7 @@ class ItemsTableViewController: UITableViewController {
     /// This is a good architecture to have decouples View controllers. This only deals with UI things. (Single responsibility principle)
     var itemsVM: ItemsViewModel
     var filteredItemsVM: ItemsViewModel
-    var service: ItemService?
+    var service: ItemService? /// No needed for favorites table
     var currentPage: Int = 1
     var isFetchingData: Bool = false
     var activityIndicator: ActivityIndicator?    
@@ -106,25 +106,29 @@ class ItemsTableViewController: UITableViewController {
     
     // MARK: - Private
     private func fetchItems() {
-        if Reachability().isConnected() {
-            showActivityIndicator()
-            isFetchingData = true
-            service?.pull(withPage: currentPage, completion: { [weak self] result in
-                self?.isFetchingData = false
-                DispatchQueue.main.async {
-                    self?.removeActivityIndicator()
-                    switch result {
-                        case .success(let items):
-                            self?.itemsVM.items.append(contentsOf: items)
-                            self?.navigationItem.searchController = self?.searchController /// Located here in order to initially appear hidden
-                            self?.tableView.reloadData()
-                        case .failure(let error):
-                            self?.showAlert(title: "Something went Wrong", message: error.localizedDescription, style: .alert, action: UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        if let service = service {
+            if Reachability().isConnected() {
+                showActivityIndicator()
+                isFetchingData = true
+                service?.pull(withPage: currentPage, completion: { [weak self] result in
+                    self?.isFetchingData = false
+                    DispatchQueue.main.async {
+                        self?.removeActivityIndicator()
+                        switch result {
+                            case .success(let items):
+                                self?.itemsVM.items.append(contentsOf: items)
+                                self?.navigationItem.searchController = self?.searchController /// Located here in order to initially appear hidden
+                                self?.tableView.reloadData()
+                            case .failure(let error):
+                                self?.showAlert(title: "Something went Wrong", message: error.localizedDescription, style: .alert, action: UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                        }
                     }
-                }
-            })
+                })
+            } else {
+                showAlert(title: "No internet connection!", message: "Connect to the internet and try again.", style: .alert, action: UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            }
         } else {
-            showAlert(title: "No internet connection!", message: "Connect to the internet and try again.", style: .alert, action: UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            
         }
     }
     
@@ -158,7 +162,7 @@ class ItemsTableViewController: UITableViewController {
             if isFiltering, let index = filteredItemsVM.items.firstIndex(where: { $0.id == item.id }) {
                 filteredItemsVM.items[index].isFavorite = !item.isFavorite
             }
-        }        
+        }
         tableView.reloadData()
     }
 }
