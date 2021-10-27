@@ -31,7 +31,7 @@ a. ********** *DONE* *********  Filtering elements
 
 # General Comments
 This app has clear abstraction of tasks and responsibilities for each file and has decoupled UI with business logic. That way it is testable, scalable and well structured.
-It also has a layer that separates (decouples) the View from the API and Models Layers.
+It also has a layer that separates (decouples) the View from the API and Model Layers.
 
 # Files Structure in XCode
 
@@ -70,6 +70,7 @@ It also has a layer that separates (decouples) the View from the API and Models 
 +-- SceneDelegate.swift
 +-- LaunchScreen.storyboard
 +-- Info.plist
+```
 
 ## Approach
 I tried to do this as clean as possible under the time limitation I had. The intention is to create a testable, scalable and maintainable code
