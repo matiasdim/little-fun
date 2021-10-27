@@ -90,6 +90,8 @@ The View controller that lists items was done very generic and following SOLID p
 
  - To get a testable, scalable and maintainable code, it is needed more at the beginning of the development process than creating and ugly code that does not allow to maintain, test and scale, so the intention was to add some unit test but I did not have time, so I preferred to focus on Test's specs and bonus points.
  - **Potential improvements:**
+	 - The way I deal with filtered items could be done better.
+	 - The presentation and structure of ViewController instances done into TabBarViewController could be improved
 	 -  Get not a dummy login but an actual login page that does not allow to do anything after successfully logged in and that is presented logically better.
 	 - Strings could be grouped in a common file and add a better architecture for them in order to easily add localization if needed.
 	 - Persist login information and favorited movies with a better approximation. Right now it uses User Defaults, and it is error prone. With more time it could be done using tools like realm/firebase or even core data.

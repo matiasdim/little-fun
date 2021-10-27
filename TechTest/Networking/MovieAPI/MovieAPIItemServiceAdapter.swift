@@ -7,6 +7,8 @@
 
 import Foundation
 
+
+/// The itention of the application of the adapter pattern here is to add a layer betwen the ViewController using the MovieAPI and the actual API.
 struct MovieAPIItemServiceAdapter: ItemService {
     
     let api: MovieAPI
