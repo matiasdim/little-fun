@@ -37,11 +37,15 @@ class ItemsTableViewController: UITableViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Items by title"
         definesPresentationContext = true
+        fetchItems()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        fetchItems()
+        if itemsVM.lookForFavorites {
+            fetchItems()
+        }
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -153,6 +157,7 @@ class ItemsTableViewController: UITableViewController {
         if isFiltering{
             filteredItemsVM.toggleFavorite(item: item)
         }
+
         tableView.reloadData()
     }
 }
