@@ -42,6 +42,7 @@ class ItemsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         tableView.register(CustomTableCell.self, forCellReuseIdentifier: reuseIdentifier)
+        navigationItem.searchController = searchController
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -106,6 +107,7 @@ class ItemsTableViewController: UITableViewController {
     
     // MARK: - Private
     private func fetchItems() {
+        /// If no service provided means this VC will populat local persisted favorite movies
         if let service = service {
             if Reachability().isConnected() {
                 showActivityIndicator()
@@ -116,8 +118,7 @@ class ItemsTableViewController: UITableViewController {
                         self?.removeActivityIndicator()
                         switch result {
                             case .success(let items):
-                                self?.itemsVM.items.append(contentsOf: items)
-                                self?.navigationItem.searchController = self?.searchController /// Located here in order to initially appear hidden
+                                self?.itemsVM.items.append(contentsOf: items)                                
                                 self?.tableView.reloadData()
                             case .failure(let error):
                                 self?.showAlert(title: "Something went Wrong", message: error.localizedDescription, style: .alert, action: UIAlertAction(title: "OK", style: .cancel, handler: nil))
@@ -128,7 +129,7 @@ class ItemsTableViewController: UITableViewController {
                 showAlert(title: "No internet connection!", message: "Connect to the internet and try again.", style: .alert, action: UIAlertAction(title: "OK", style: .cancel, handler: nil))
             }
         } else {
-            
+           fetchFavorites()
         }
     }
     
@@ -165,7 +166,26 @@ class ItemsTableViewController: UITableViewController {
                 filteredItemsVM.items[index].handleIsFavorite()
             }
         }
+//        fetchFavorites()
         tableView.reloadData()
+    }
+    
+    private func fetchFavorites() {
+        if let data = UserDefaults.standard.object(forKey: "movies") as? Data {
+            do {
+                let movies = try JSONDecoder().decode([Movie].self, from: data)
+                itemsVM.items.removeAll()
+                for movie in movies {
+                    itemsVM.items.append(ItemViewModel(movie: movie, selection: {_ in }))
+                }
+                tableView.reloadData()
+                
+            } catch {
+                print("")
+            }
+        } else {
+            print("")
+        }
     }
 }
 

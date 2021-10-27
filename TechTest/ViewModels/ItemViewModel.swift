@@ -25,17 +25,66 @@ struct ItemViewModel {
     /// This should be better handled storing the Object encoding and decoding it into user defaults or even better using  another data persistance solution
     func handleIsFavorite() {
         if !isFavorite {
-            let itemArray = [["title": title],
-                             ["rating": "\(rating)"],
-                             ["overview": overview]]
-            UserDefaults.standard.setValue(itemArray, forKey: "\(id)")            
+            do {
+                if let data = UserDefaults.standard.object(forKey: "movies") as? Data {
+                    do {
+                        var movies = try JSONDecoder().decode([Movie].self, from: data)
+                        movies.append(Movie(id: id, title: title, rating: rating, overview: overview))
+                        let data = try JSONEncoder().encode(movies)
+                        UserDefaults.standard.setValue(data, forKey: "movies")
+                    } catch {
+                        print("")
+                    }
+                } else {
+                    do {
+                       
+                        let movies = [Movie(id: id, title: title, rating: rating, overview: overview)]
+                        let data = try JSONEncoder().encode(movies)
+                        UserDefaults.standard.setValue(data, forKey: "movies")
+                    } catch {
+                        print("")
+                    }
+                }
+               
+            } catch {
+                print("")
+            }
+            
+//            let itemArray = [["title": title],
+//                             ["rating": "\(rating)"],
+//                             ["overview": overview]]
+//            UserDefaults.standard.setValue(itemArray, forKey: "\(id)")
         } else {
-            UserDefaults.standard.removeObject(forKey: "\(id)")
+//            UserDefaults.standard.removeObject(forKey: "\(id)")
+            if let data = UserDefaults.standard.object(forKey: "movies") as? Data {
+                do {
+                    var movies = try JSONDecoder().decode([Movie].self, from: data)
+                    movies.removeAll(where: { movie in
+                        movie.id == self.id
+                    })
+                    let data = try? JSONEncoder().encode(movies)
+                    UserDefaults.standard.setValue(data, forKey: "movies")
+                } catch {
+                    print("")
+                }
+            }
         }
     }
     
     func checkIfFavorite() -> Bool {
-        return (UserDefaults.standard.value(forKey: "\(id)")) != nil
+//        return (UserDefaults.standard.object(forKey: "\(id)")) != nil
+        if let data = UserDefaults.standard.object(forKey: "movies") as? Data {
+            do {
+                var movies = try JSONDecoder().decode([Movie].self, from: data)
+                return movies.contains { movie in
+                    movie.id == self.id
+                }
+            } catch {
+                print("")
+                return false
+            }
+        }
+        return false
     }
 }
 
