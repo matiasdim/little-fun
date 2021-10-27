@@ -110,7 +110,7 @@ class ItemsTableViewController: UITableViewController {
             if Reachability().isConnected() {
                 showActivityIndicator()
                 isFetchingData = true
-                service?.pull(withPage: currentPage, completion: { [weak self] result in
+                service.pull(withPage: currentPage, completion: { [weak self] result in
                     self?.isFetchingData = false
                     DispatchQueue.main.async {
                         self?.removeActivityIndicator()
