@@ -26,7 +26,6 @@ struct ItemViewModel {
 
 /// Abstraction to decouple base ItemViewModel from Movie
 extension ItemViewModel {
-    static let storingKey = "movies"
     
     init(movie: Movie, persistanceHandler: PersistanceDataHandler, selection: @escaping (ItemViewModel) -> Void) {
         id = movie.id
@@ -40,34 +39,34 @@ extension ItemViewModel {
     /// persitance made in User defaults to speed up the proces of creating the Favorits functionality
     func handleIsFavorite() {
         if !isFavorite {        
-            if let data = persistanceHandler.getObject(forKey: ItemViewModel.storingKey) {
+            if let data = persistanceHandler.getObject(forKey: Movie.storingKey) {
                 if var movies = decodeMovies(fromData: data) {
                     movies.append(Movie(id: id, title: title, rating: rating, overview: overview))
                     if let data = encode(movies: movies) {
-                        persistanceHandler.set(data: data, forKey: ItemViewModel.storingKey)
+                        persistanceHandler.set(data: data, forKey: Movie.storingKey)
                     }
                 }
             } else {
                 /// Logic for when it is first movie that is being persisted
                 let movies = [Movie(id: id, title: title, rating: rating, overview: overview)]
                 if let data = encode(movies: movies) {
-                    persistanceHandler.set(data: data, forKey: ItemViewModel.storingKey)
+                    persistanceHandler.set(data: data, forKey: Movie.storingKey)
                 }
             }
         } else {
-            if let data = persistanceHandler.getObject(forKey: ItemViewModel.storingKey), var movies = decodeMovies(fromData: data) {
+            if let data = persistanceHandler.getObject(forKey: Movie.storingKey), var movies = decodeMovies(fromData: data) {
                     movies.removeAll(where: { movie in
                         movie.id == self.id
                     })
                     if let updatedData = encode(movies: movies) {
-                        persistanceHandler.set(data: updatedData, forKey: ItemViewModel.storingKey)
+                        persistanceHandler.set(data: updatedData, forKey: Movie.storingKey)
                     }
             }
         }
     }
     
     func checkIfFavorite() -> Bool {
-        if let data = persistanceHandler.getObject(forKey: ItemViewModel.storingKey), let movies = decodeMovies(fromData: data) {
+        if let data = persistanceHandler.getObject(forKey: Movie.storingKey), let movies = decodeMovies(fromData: data) {
             return movies.contains { movie in
                 movie.id == self.id
             }

@@ -13,6 +13,8 @@ struct Movie: Codable {
     var rating: Double
     var overview: String
     
+    static let storingKey = "movies"
+    
     enum CodingKeys: String, CodingKey {
         case id, title, overview
         case rating = "vote_average"

@@ -17,6 +17,7 @@ struct LoginViewModel {
     var setUser: (() -> Bool)?
     var showError: (()->())?
     var dismissVC: (()->())?
+    var persistancehandler: PersistanceDataHandler
     
     func login() {
         if validateFields?() == true {
@@ -38,7 +39,7 @@ struct LoginViewModel {
     }
     
     private func persistUser() {
-        UserDefaults.standard.setValue(["email": user.email, "password": user.password], forKey: "user")
+        persistancehandler.set(object: ["email": user.email, "password": user.password], forKey: "user")        
     }
         
 }

@@ -42,21 +42,26 @@ class TabBarViewController: UITabBarController {
     
     private func createFavoritesScreen() -> UINavigationController {
         let title = "Favorites"
-        return embedInNavigation(viewController: crateItemsTableViewController(withTitle: title, filterFavorites: true), title: title, iconName: "star")
+        return embedInNavigation(viewController: crateItemsTableViewController(withTitle: title, lookForFavorites: true), title: title, iconName: "star")
     }
     
-    private func crateItemsTableViewController(withTitle title: String, filterFavorites: Bool = false) -> UITableViewController {
-        let vc = ItemsTableViewController(itemsVM: ItemsViewModel(), filteredItemsVM: ItemsViewModel())
+    private func crateItemsTableViewController(withTitle title: String, lookForFavorites: Bool = false) -> UITableViewController {
+        let persistanceDataHandler = PersistanceDataHandler()
+        var vm = ItemsViewModel(persistanceDataHandler: persistanceDataHandler)
+        let filteringVm = ItemsViewModel(persistanceDataHandler: persistanceDataHandler)
+        
+        let vc = ItemsTableViewController()
         vc.navigationItem.largeTitleDisplayMode = .always
         vc.title = title
+        vm.service = MovieAPIItemServiceAdapter(
+            api: MovieAPI(),
+            select: { [weak vc] item in
+                vc?.select(item: item)
+            })
+        vm.lookForFavorites = lookForFavorites
         
-        if !filterFavorites {
-            vc.service = MovieAPIItemServiceAdapter(
-                api: MovieAPI(),
-                select: { [weak vc] item in
-                    vc?.select(item: item)
-                })
-        }
+        vc.itemsVM = vm
+        vc.filteredItemsVM = filteringVm
         return vc
     }
     

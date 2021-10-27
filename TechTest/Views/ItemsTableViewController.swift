@@ -11,12 +11,11 @@ class ItemsTableViewController: UITableViewController {
     
     /// More general types of items and service to decouple the view controller of these and have it more general.
     /// This is a good architecture to have decouples View controllers. This only deals with UI things. (Single responsibility principle)
-    var itemsVM: ItemsViewModel
-    var filteredItemsVM: ItemsViewModel
-    var service: ItemService? /// No needed for favorites table
+    var itemsVM: ItemsViewModel!
+    var filteredItemsVM: ItemsViewModel!
     var currentPage: Int = 1
     var isFetchingData: Bool = false
-    var activityIndicator: ActivityIndicator?    
+    var activityIndicator: ActivityIndicator?
     let searchController = UISearchController(searchResultsController: nil)
     
     var isSearchBarEmpty: Bool {
@@ -27,16 +26,6 @@ class ItemsTableViewController: UITableViewController {
     }
     
     private var reuseIdentifier = "reuseIdentifier"
-    
-    init(itemsVM: ItemsViewModel, filteredItemsVM: ItemsViewModel) {
-        self.itemsVM = itemsVM
-        self.filteredItemsVM = filteredItemsVM        
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,6 +76,7 @@ class ItemsTableViewController: UITableViewController {
     }
     
     // MARK: - Scrollview delegate methods
+    /// To fetch more items when reaching out the bottom of the table
     override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !isFiltering &&
             scrollView == tableView &&
@@ -107,29 +97,30 @@ class ItemsTableViewController: UITableViewController {
     
     // MARK: - Private
     private func fetchItems() {
-        /// If no service provided means this VC will populat local persisted favorite movies
-        if let service = service {
-            if Reachability().isConnected() {
-                showActivityIndicator()
-                isFetchingData = true
-                service.pull(withPage: currentPage, completion: { [weak self] result in
-                    self?.isFetchingData = false
-                    DispatchQueue.main.async {
-                        self?.removeActivityIndicator()
-                        switch result {
-                            case .success(let items):
-                                self?.itemsVM.items.append(contentsOf: items)
-                                self?.tableView.reloadData()
-                            case .failure(let error):
-                                self?.showAlert(title: "Something went Wrong", message: error.localizedDescription, style: .alert, action: UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                        }
-                    }
-                })
-            } else {
-                showAlert(title: "No internet connection!", message: "Connect to the internet and try again.", style: .alert, action: UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            }
+        /// If no service provided means this VC will populate local persisted favorite movies
+        if itemsVM.lookForFavorites {
+            itemsVM.fetchFavorites()
+            tableView.reloadData()
         } else {
-           fetchFavorites()
+            if !Reachability().isConnected() {
+                showAlert(title: "No internet connection!", message: "Connect to the internet and try again.", style: .alert, action: UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                return
+            }
+            showActivityIndicator()
+            isFetchingData = true
+            itemsVM.fetchFromServer(withPage: currentPage) { [weak self] result in
+                self?.isFetchingData = false
+                DispatchQueue.main.async {
+                    self?.removeActivityIndicator()
+                    switch result {
+                        case .success(let items):
+                            self?.itemsVM.items.append(contentsOf: items)
+                            self?.tableView.reloadData()
+                        case .failure(let error):
+                            self?.showAlert(title: "Something went Wrong", message: error.localizedDescription, style: .alert, action: UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                    }
+                }
+            }
         }
     }
     
@@ -157,35 +148,12 @@ class ItemsTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    
-    /// This could be rethinked and improved
     private func toggleFavorite(item: ItemViewModel) {
-        if let index = itemsVM.items.firstIndex(where: { $0.id == item.id }) {
-            itemsVM.items[index].handleIsFavorite()
-            if isFiltering, let index = filteredItemsVM.items.firstIndex(where: { $0.id == item.id }) {
-                filteredItemsVM.items[index].handleIsFavorite()
-            }
+        itemsVM.toggleFavorite(item: item)
+        if isFiltering{
+            filteredItemsVM.toggleFavorite(item: item)
         }
-//        fetchFavorites()
         tableView.reloadData()
-    }
-    
-    private func fetchFavorites() {
-        if let data = UserDefaults.standard.object(forKey: "movies") as? Data {
-            do {
-                let movies = try JSONDecoder().decode([Movie].self, from: data)
-                itemsVM.items.removeAll()
-                for movie in movies {
-                    itemsVM.items.append(ItemViewModel(movie: movie, persistanceHandler: PersistanceDataHandler(), selection: {_ in }))
-                }
-                tableView.reloadData()
-                
-            } catch {
-                print("")
-            }
-        } else {
-            print("")
-        }
     }
 }
 

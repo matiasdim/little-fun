@@ -8,6 +8,10 @@
 import Foundation
 
 struct PersistanceDataHandler {
+    func set(object: Any, forKey key: String) {
+        UserDefaults.standard.setValue(object, forKey: key)
+    }
+    
     func set(data: Data, forKey key: String) {
         UserDefaults.standard.setValue(data, forKey: key)
     }

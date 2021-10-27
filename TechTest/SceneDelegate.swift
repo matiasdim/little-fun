@@ -26,7 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let _ = UserDefaults.standard.object(forKey: "user") {
             vc = TabBarViewController()
         } else {
-            let loginVM = LoginViewModel(user: User())
+            let loginVM = LoginViewModel(user: User(), persistancehandler: PersistanceDataHandler())
             let loginVC = LoginViewController(loginVM: loginVM)
             vc = TabBarViewController(loginVC: loginVC)
         }
