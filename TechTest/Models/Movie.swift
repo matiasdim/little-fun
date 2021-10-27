@@ -12,7 +12,6 @@ struct Movie: Codable {
     var title: String
     var rating: Double
     var overview: String
-    var isFavorite: Bool = false
     
     enum CodingKeys: String, CodingKey {
         case id, title, overview

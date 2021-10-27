@@ -156,11 +156,13 @@ class ItemsTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    
+    /// This could be rethinked and improved
     private func toggleFavorite(item: ItemViewModel) {
         if let index = itemsVM.items.firstIndex(where: { $0.id == item.id }) {
-            itemsVM.items[index].isFavorite = !item.isFavorite
+            itemsVM.items[index].handleIsFavorite()
             if isFiltering, let index = filteredItemsVM.items.firstIndex(where: { $0.id == item.id }) {
-                filteredItemsVM.items[index].isFavorite = !item.isFavorite
+                filteredItemsVM.items[index].handleIsFavorite()
             }
         }
         tableView.reloadData()

@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol CustomTableCellActionsHandler {
-    func toggleFavorite(item: ItemViewModel)
-}
-
 class CustomTableCell: UITableViewCell {
     
     var toggleFavorite: ((_ item: ItemViewModel) -> ())?
@@ -87,8 +83,6 @@ class CustomTableCell: UITableViewCell {
     
     @objc private func favoriteButtonPressed() {
         guard let itemVM = itemVM else { return }
-        let image = UIImage(systemName: itemVM.isFavorite ? "star.fill" : "star")?.withTintColor(.yellow, renderingMode: .alwaysTemplate)
-        favoriteButton.setImage(image, for: .normal)
         toggleFavorite?(itemVM)
     }
 
