@@ -20,7 +20,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         let vc: TabBarViewController
-//        UserDefaults.standard.removeObject(forKey: "user")
         
         /// ATENTION: THIS COULD BE IMPROVED!
         if let _ = UserDefaults.standard.object(forKey: "user") {
