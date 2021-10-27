@@ -1,5 +1,5 @@
 I encourage you to read this reamd me file, please.
-*(As asked, inside the main path, there is a recording of the app.)*
+*(As asked, inside the main path, there is a recording of the app. The Gile is called 'Little-fun.mov')*
 # 1- POC App:  
 I chose a Movies API, and I am pulling the top rated movies from there.
 That list of movies is the one presented in this test.
