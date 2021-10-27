@@ -20,7 +20,7 @@ struct MovieAPIItemServiceAdapter: ItemService {
                         let response = try JSONDecoder().decode(Response.self, from: data)
                         var items = [ItemViewModel]()
                         for movie in response.results {
-                            items.append(ItemViewModel(movie: movie, selection: select))
+                            items.append(ItemViewModel(movie: movie, persistanceHandler: PersistanceDataHandler(), selection: select))
                         }
                         completion(.success(items))
                     } catch {

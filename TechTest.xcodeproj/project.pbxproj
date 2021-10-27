@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		131DCA7427261BCF00D1C0FD /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131DCA7327261BCF00D1C0FD /* ActivityIndicator.swift */; };
+		1366562B2729A06700238686 /* PersistanceDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1366562A2729A06700238686 /* PersistanceDataHandler.swift */; };
 		13834B132727552500973145 /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13834B112727552500973145 /* ItemDetailViewController.swift */; };
 		13834B142727552500973145 /* ItemDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13834B122727552500973145 /* ItemDetailViewController.xib */; };
 		13834B182727598D00973145 /* MovieAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13834B172727598D00973145 /* MovieAPI.swift */; };
@@ -52,6 +53,7 @@
 
 /* Begin PBXFileReference section */
 		131DCA7327261BCF00D1C0FD /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		1366562A2729A06700238686 /* PersistanceDataHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceDataHandler.swift; sourceTree = "<group>"; };
 		13834B112727552500973145 /* ItemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailViewController.swift; sourceTree = "<group>"; };
 		13834B122727552500973145 /* ItemDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemDetailViewController.xib; sourceTree = "<group>"; };
 		13834B172727598D00973145 /* MovieAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieAPI.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 			children = (
 				13E9A5A6272465530016C248 /* UIViewController+Extension.swift */,
 				131DCA7327261BCF00D1C0FD /* ActivityIndicator.swift */,
+				1366562A2729A06700238686 /* PersistanceDataHandler.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 				13E9A5A9272471DB0016C248 /* ItemsTableViewController.swift in Sources */,
 				131DCA7427261BCF00D1C0FD /* ActivityIndicator.swift in Sources */,
 				13834B1D272776CC00973145 /* ItemServiceProtocol.swift in Sources */,
+				1366562B2729A06700238686 /* PersistanceDataHandler.swift in Sources */,
 				139B5FE42728DF9D00625564 /* MovieAPIItemServiceAdapter.swift in Sources */,
 				13E9A5A02724538E0016C248 /* LoginViewModel.swift in Sources */,
 				13E9A5AD272472060016C248 /* Movie.swift in Sources */,

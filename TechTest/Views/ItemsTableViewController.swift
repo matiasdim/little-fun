@@ -118,7 +118,7 @@ class ItemsTableViewController: UITableViewController {
                         self?.removeActivityIndicator()
                         switch result {
                             case .success(let items):
-                                self?.itemsVM.items.append(contentsOf: items)                                
+                                self?.itemsVM.items.append(contentsOf: items)
                                 self?.tableView.reloadData()
                             case .failure(let error):
                                 self?.showAlert(title: "Something went Wrong", message: error.localizedDescription, style: .alert, action: UIAlertAction(title: "OK", style: .cancel, handler: nil))
@@ -176,7 +176,7 @@ class ItemsTableViewController: UITableViewController {
                 let movies = try JSONDecoder().decode([Movie].self, from: data)
                 itemsVM.items.removeAll()
                 for movie in movies {
-                    itemsVM.items.append(ItemViewModel(movie: movie, selection: {_ in }))
+                    itemsVM.items.append(ItemViewModel(movie: movie, persistanceHandler: PersistanceDataHandler(), selection: {_ in }))
                 }
                 tableView.reloadData()
                 
